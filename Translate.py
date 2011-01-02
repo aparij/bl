@@ -35,8 +35,8 @@ class Translate:
             s.strip()
             token_list = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", s)
             for token in token_list:
-                if token in self.dictionary:
-                    translated_list.append(self.dictionary[token])
+                if token.lower() in self.dictionary:
+                    translated_list.append(self.dictionary[token.lower()])
                     translated_list.append(' ')
                     #translated_line = translated_line + self.dictionary[token] + ' '
                 else:

@@ -1,8 +1,11 @@
+import codecs
+
+
 fr_en_dict={}
-f=open('tinelex_FR_EN.dix','r')
+f=codecs.open('tinelex_FR_EN.dix',mode='r',encoding='utf-8')
 
 for line in f.readlines():
-    s=str(line)
+    s= line
     while s.find('?')!=-1:
         pos_q = s.find('?')
         pos_q_ends = s.find(':',pos_q,len(s))
@@ -12,9 +15,9 @@ for line in f.readlines():
             s=s[0:s.find(']')+1]+ s[pos_q_next-1:len(s)]
         else:
             break
-f_out=open('FR_EN.dict','w')
+f_out=codecs.open('FR_EN.dict',encoding='utf-8',mode = 'w')
 for f,e in fr_en_dict.items():
-    line=f+':'+e+'\n'
+    line=f+':'+e+u'\n'
     f_out.write(line)
 
 #f.close()
