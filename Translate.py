@@ -28,13 +28,12 @@ class Translate:
         print datetime.now()
         self.book_file = book_file
         f = open(book_file,'r')
-        translated_as_string = ''
-        translated_line = ''
+        translated_as_string = []
+        translated_list = []
         for line in f.readlines():
             s=str(line)
             s.strip()
             token_list = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", s)
-            translated_list = []
             for token in token_list:
                 if token in self.dictionary:
                     translated_list.append(self.dictionary[token])
@@ -49,11 +48,8 @@ class Translate:
                     translated_list.append(token)
                     translated_list.append(' ')
 
-slist = [some_function(elt) for elt in somelist]
-s = "".join(slist)
-
-            translated_line = translated_line + '\n'
-            translated_as_string = translated_as_string + translated_line
+            translated_list.append('\n')
+        translated_as_string = "".join(translated_list)
         f.close()
         print datetime.now()
 
