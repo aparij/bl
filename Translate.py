@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-
+import codecs
 
 class Translate:
 
@@ -15,25 +15,25 @@ class Translate:
         '''
             
         '''
-        f=open(from_lang+ '_' + to_lang + '.dict','r')
+        f=codecs.open(from_lang+ '_' + to_lang + '.dict',encoding='cp1252',mode='r')
         for line in f.readlines():
-            s=str(line)
+            s=line
             pos=s.find(':')
-            self.dictionary[s[:pos]]=s[pos+1:len(s)-1]
+            key=s[:pos]
+            self.dictionary[key.encode('cp1252')]=s[pos+1:len(s)-1]
         f.close()
             
     def read_and_translate_file(self,book_file):
         '''
         '''
-        print datetime.now()
         self.book_file = book_file
-        f = open(book_file,'r')
+        f = codecs.open(book_file,encoding='cp1252',mode='r')
         translated_as_string = []
         translated_list = []
         for line in f.readlines():
-            s=str(line)
+            s=line
             s.strip()
-            token_list = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", s)
+            token_list = re.findall(r"\w+(?:[-']\w+)*|'|[-.(]+|\S\w*", s , flags=re.UNICODE)
             for token in token_list:
                 if token.lower() in self.dictionary:
                     translated_list.append(self.dictionary[token.lower()])
@@ -48,7 +48,7 @@ class Translate:
                     translated_list.append(token)
                     translated_list.append(' ')
 
-            translated_list.append('\n')
+            translated_list.append(u'\n')
         translated_as_string = "".join(translated_list)
         f.close()
         print datetime.now()
@@ -58,7 +58,7 @@ class Translate:
     def write_file(self,translated_string):
         '''
         '''
-        f_out=open(self.book_file + '.TR','w')
+        f_out=codecs.open(self.book_file + '.TR',encoding='cp1252',mode='w')
         f_out.write(translated_string)
         f_out.close()
 
